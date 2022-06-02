@@ -1,0 +1,31 @@
+name: Deploy
+
+on: 
+  push:
+    branches:
+    - main 
+
+jobs:
+  deploy_lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: 'AKIARHK4NUKJIM5OECNH'
+          aws-secret-access-key: '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'
+          aws-region: ap-south-1
+      - name: npm install
+        env:
+          CI: true
+        run: |
+          npm ci
+      - name: deploy 
+        run: |
+          cd ./../.
+          zip -r deploy.zip ./*
+          serverless deploy
