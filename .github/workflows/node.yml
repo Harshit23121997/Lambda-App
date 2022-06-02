@@ -16,7 +16,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: 'AKIARHK4NUKJIM5OECNH'
+          aws-access-key-id: 'AKIARHK4NUKJH7SGMOR3'
           aws-secret-access-key: '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'
           aws-region: ap-south-1
       - name: npm install
