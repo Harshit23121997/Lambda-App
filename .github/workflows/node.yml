@@ -13,20 +13,11 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: 'AKIARHK4NUKJH7SGMOR3'
-          aws-secret-access-key: '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'
-          aws-region: ap-south-1
-      - name: npm install
-        env:
-          CI: true
-        run: |
-          npm ci
-      - name: deploy 
-        run: |
-          npm ci
-          zip -r deploy.zip ./*
-          serverless deploy
-          aws lambda update-function-code --function-name=arn:aws:lambda:ap-south-1:084482564754:function:lambda-app-dev-app --zip-file=fileb://deploy.zip
+      - name: Install serverless globally
+        run: npm install -g serverless
+      - name: Configure serverless authentication
+        run: sls config credentials --provider aws --key AKIARHK4NUKJH7SGMOR3 --secret 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
+      - name: Install npm dependencies
+        run: npm ci
+      - name: Deploy lambda function
+        run: sls deploy
